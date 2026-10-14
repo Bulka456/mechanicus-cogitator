@@ -2489,7 +2489,7 @@ const QUESTIONS_PER_CATEGORY = 2;
           }
           return {
             catKey: "ohm",
-            category: "⚡ ДИСЦИПЛИНА: СВЯЩЕННЫЙ ТОК И НАПРЯЖЕНИЕ",
+            category: "[СЕКТОР-01] ДИСЦИПЛИНА: СВЯЩЕННЫЙ ТОК И НАПРЯЖЕНИЕ",
             q: `Через резистор ${formatEng(r_Ohm, 'Ом')} протекает ток ${i_mA} мА. Какое напряжение падает на узле?`,
             correct: correctStr,
             options: shuffleArray(Array.from(distractors)),
@@ -2508,7 +2508,7 @@ const QUESTIONS_PER_CATEGORY = 2;
           }
           return {
             catKey: "ohm",
-            category: "⚡ ДИСЦИПЛИНА: СВЯЩЕННЫЙ ТОК И НАПРЯЖЕНИЕ",
+            category: "[СЕКТОР-01] ДИСЦИПЛИНА: СВЯЩЕННЫЙ ТОК И НАПРЯЖЕНИЕ",
             q: `К цепи с сопротивлением ${r_kOhm} кОм приложен потенциал ${u_V} В. Исчислите ток в проводнике.`,
             correct: correctStr,
             options: shuffleArray(Array.from(distractors)),
@@ -2536,7 +2536,7 @@ const QUESTIONS_PER_CATEGORY = 2;
           }
           return {
             catKey: "components",
-            category: "📦 ДИСЦИПЛИНА: НОМИНАЛЫ И МАРКИРОВКА",
+            category: "[СЕКТОР-02] ДИСЦИПЛИНА: НОМИНАЛЫ И МАРКИРОВКА",
             q: `Кольца резистора: [${b1.name}], [${b2.name}], [${b3.name}], [Золотой]. Каков номинал сопротивления?`,
             correct: correctStr,
             options: shuffleArray(Array.from(distractors)),
@@ -2554,7 +2554,7 @@ const QUESTIONS_PER_CATEGORY = 2;
           while (distractors.size < 4) { distractors.add(randChoice(codes).str); }
           return {
             catKey: "components",
-            category: "📦 ДИСЦИПЛИНА: НОМИНАЛЫ И МАРКИРОВКА",
+            category: "[СЕКТОР-02] ДИСЦИПЛИНА: НОМИНАЛЫ И МАРКИРОВКА",
             q: `На керамическом конденсаторе оттиснут код «${item.code}». Какова его истинная емкость?`,
             correct: item.str,
             options: shuffleArray(Array.from(distractors)),
@@ -2579,7 +2579,7 @@ const QUESTIONS_PER_CATEGORY = 2;
           distractors.add(`${Math.round(r_exact * 0.5)} Ом`);
           return {
             catKey: "soldering",
-            category: "🔥 ДИСЦИПЛИНА: СХЕМНЫЙ МОНТАЖ И ПАЙКА",
+            category: "[СЕКТОР-03] ДИСЦИПЛИНА: СХЕМНЫЙ МОНТАЖ И ПАЙКА",
             q: `Питание ${vs} В. Светодиод (${led.color}, падение ${led.vf} В, ток ${if_mA} мА). Какой резистор впаять в балласт?`,
             correct: correctStr,
             options: shuffleArray(Array.from(distractors)),
@@ -2607,7 +2607,7 @@ const QUESTIONS_PER_CATEGORY = 2;
           const item = randChoice(qList);
           return {
             catKey: "soldering",
-            category: "🔥 ДИСЦИПЛИНА: СХЕМНЫЙ МОНТАЖ И ПАЙКА",
+            category: "[СЕКТОР-03] ДИСЦИПЛИНА: СХЕМНЫЙ МОНТАЖ И ПАЙКА",
             q: item.q,
             correct: item.c,
             options: shuffleArray([item.c, ...item.w]),
@@ -2626,7 +2626,7 @@ const QUESTIONS_PER_CATEGORY = 2;
           }
           return {
             catKey: "logic",
-            category: "💾 ДИСЦИПЛИНА: КОГИТАТОРНАЯ ЛОГИКА",
+            category: "[СЕКТОР-04] ДИСЦИПЛИНА: КОГИТАТОРНАЯ ЛОГИКА",
             q: `Число [ ${dec} ] переводится в шестнадцатеричный код Лингва-Технис (HEX). Каков результат?`,
             correct: hex,
             options: shuffleArray(Array.from(distractors)),
@@ -2663,7 +2663,7 @@ const QUESTIONS_PER_CATEGORY = 2;
           const item = randChoice(lorePool);
           return {
             catKey: "lore",
-            category: "📜 ДИСЦИПЛИНА: АРХИВЫ И ДОГМА МАРСА",
+            category: "[СЕКТОР-05] ДИСЦИПЛИНА: АРХИВЫ И ДОГМА МАРСА",
             q: item.q,
             correct: item.c,
             options: shuffleArray([item.c, ...item.w]),
