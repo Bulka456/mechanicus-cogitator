@@ -27,52 +27,40 @@ const LORE_DATABASE = {
 };
 
 function showLoreEra(eraKey, btn) {
-  triggerRelayImpact();
+  if (typeof triggerRelayImpact === 'function') triggerRelayImpact();
   document.querySelectorAll('.lore-era-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  if (btn) btn.classList.add('active');
   const data = LORE_DATABASE[eraKey];
-  document.getElementById('lore-display-container').innerHTML = `
-    <div class="lore-view-header"><span>${data.title}</span><span style="font-size:0.8rem; color:var(--crt-green);">${data.date}</span></div>
-    <div class="lore-view-body">${data.text}</div>
-  `;
+  const container = document.getElementById('lore-display-container');
+  if (data && container) {
+    container.innerHTML = '<div class="lore-view-header"><span>' + data.title + '</span><span style="font-size:0.8rem; color:var(--crt-green);">' + data.date + '</span></div><div class="lore-view-body">' + data.text + '</div>';
+  }
 }
 
 const PRAYER_TEMPLATES = {
   smoke: {
     title: "ЛИТАНИЯ ПЕРВОГО ВКЛЮЧЕНИЯ И ИЗГНАНИЯ БЕЛОГО ДЫМА",
-    text: (name) => `«О Омниссия, Владыка всех соединенных путей! <br>
-Взгляни на сосуд сей — ${name}. Да пребудет в нем ток соразмерный, и да удержится священный Белый Дым внутри кремниевых врат транзисторов твоих! <br>
-Отврати искру короткую, смири бросок пусковой, благослови фильтрующие емкости миром и покоем. <br>
-Во имя Единого Бога-Машины и священной Движущей Силы — ДА ПОЙДЕТ ТОК!»`
+    text: (name) => "«О Омниссия, Владыка всех соединенных путей! <br>Взгляни на сосуд сей — " + name + ". Да пребудет в нем ток соразмерный, и да удержится священный Белый Дым внутри кремниевых врат транзисторов твоих! <br>Отврати искру короткую, смири бросок пусковой, благослови фильтрующие емкости миром и покоем. <br>Во имя Единого Бога-Машины и священной Движущей Силы — ДА ПОЙДЕТ ТОК!»"
   },
   short: {
     title: "ЗАКЛИНАНИЕ ПРОТИВ СКВЕРНЫ КОРОТКОГО ЗАМЫКАНИЯ",
-    text: (name) => `«Скверна нуля ом осквернила узел ${name}! Призываю благодать амперметра и святость тепловизора! <br>
-Пусть раскалится докрасна лишь греховный пробитый конденсатор, явив скверну свою очам техножреца. <br>
-Да сохранятся медные слои от перегара, а изолятор от обугливания. Омнисссия укажет виновного!»`
+    text: (name) => "«Скверна нуля ом осквернила узел " + name + "! Призываю благодать амперметра и святость тепловизора! <br>Пусть раскалится докрасна лишь греховный пробитый конденсатор, явив скверну свою очам техножреца. <br>Да сохранятся медные слои от перегара, а изолятор от обугливания. Омнисссия укажет виновного!»"
   },
   bga: {
     title: "ПЕСНЬ ОПЛАВЛЕНИЯ СВЯЩЕННЫХ ШАРОВ BGA",
-    text: (name) => `«Касаюсь платы ${name} дыханием горячего вокса (термофена). <br>
-Пусть флюс вскипит без пустот, пусть сила поверхностного натяжения самоцентрирует чип на алтаре платы! <br>
-Да сплавятся шары припоя в совершенные сферы без слипания и мостиков. Дух Машины, обретай плоть!»`
+    text: (name) => "«Касаюсь платы " + name + " дыханием горячего вокса (термофена). <br>Пусть флюс вскипит без пустот, пусть сила поверхностного натяжения самоцентрирует чип на алтаре платы! <br>Да сплавятся шары припоя в совершенные сферы без слипания и мостиков. Дух Машины, обретай плоть!»"
   },
   transistor: {
     title: "МОЛИТВА ПРИ ЗАМЕНЕ ПОЛЕВОГО ТРАНЗИСТОРА",
-    text: (name) => `«Смиренно отпаиваю падший остов пробитого кристалла в ${name}. <br>
-Освобождаю место под новый, чистый и незапятнанный затвор. Да будет сопротивление открытого канала Rds(on) минимальным, а емкость затвора не отяготит драйвер цепи. Покойся с миром, павший кремний.»`
+    text: (name) => "«Смиренно отпаиваю падший остов пробитого кристалла в " + name + ". <br>Освобождаю место под новый, чистый и незапятнанный затвор. Да будет сопротивление открытого канала Rds(on) минимальным, а емкость затвора не отяготит драйвер цепи. Покойся с миром, павший кремний.»"
   },
   esd: {
     title: "ОСВЯЩЕНИЕ АНТИСТАТИЧЕСКОГО БРАСЛЕТА",
-    text: (name) => `«Слаба плоть моя, несущая невидимую статику греховного мира! <br>
-Застегиваю медную манжету на запястье своем и вверяю потенциал плоти священному контуру заземления Земля-1МОм. <br>
-Ни один затвор полевика в ${name} не будет пробит искрой моей гордыни!»`
+    text: (name) => "«Слаба плоть моя, несущая невидимую статику греховного мира! <br>Застегиваю медную манжету на запястье своем и вверяю потенциал плоти священному контуру заземления Земля-1МОм. <br>Ни один затвор полевика в " + name + " не будет пробит искрой моей гордыни!»"
   },
   firmware: {
     title: "ЛИТАНИЯ ЗАПИСИ БИНАРНОЙ ПРОШИВКИ В КРЕМНИЙ",
-    text: (name) => `«Биты к битам, байты к байтам! Изливаю поток Лингва-Технис во флэш-память ${name}. <br>
-Да не сотрется загрузчик (Bootloader), да совпадут контрольные суммы CRC32! <br>
-Пробудись, микроконтроллер, и славь Омниссию в бесконечном цикле while(1)!»`
+    text: (name) => "«Биты к битам, байты к байтам! Изливаю поток Лингва-Технис во флэш-память " + name + ". <br>Да не сотрется загрузчик (Bootloader), да совпадут контрольные суммы CRC32! <br>Пробудись, микроконтроллер, и славь Омниссию в бесконечном цикле while(1)!»"
   }
 };
 
@@ -80,19 +68,18 @@ function generateMachinePrayer() {
   const ritual = document.getElementById('prayer-ritual-select').value;
   const boardName = document.getElementById('prayer-board-name').value.trim() || "Священное Изделие";
   const out = document.getElementById('prayer-display-box');
-  playLiturgicalChime();
+  if (typeof playLiturgicalChime === 'function') playLiturgicalChime();
 
   const p = PRAYER_TEMPLATES[ritual];
-  out.innerHTML = `
-    <strong style="color: var(--brass-bright); font-size: 1.15rem; display: block; margin-bottom: 8px;">${p.title}</strong>
-    ${p.text(boardName)}
-  `;
+  if (p && out) {
+    out.innerHTML = '<strong style="color: var(--brass-bright); font-size: 1.15rem; display: block; margin-bottom: 8px;">' + p.title + '</strong>' + p.text(boardName);
+  }
 }
 
 function copyPrayerToClipboard() {
   const text = document.getElementById('prayer-display-box').innerText;
   navigator.clipboard.writeText(text).then(() => {
-    triggerRelayImpact();
+    if (typeof triggerRelayImpact === 'function') triggerRelayImpact();
     alert("Литания успешно запечатлена в буфер обмена когитатора!");
   });
 }
@@ -118,17 +105,9 @@ const SIXTEEN_LAWS = [
 
 function renderLaws() {
   const container = document.getElementById('laws-container');
-  container.innerHTML = SIXTEEN_LAWS.map(law => `
-    <div class="formula-card-sub" style="margin-bottom: 12px; border-left: 4px solid var(--brass-primary);">
-      <div class="formula-badge-title">
-        <span>ЗАКОН [${law.num}]: ${law.name.toUpperCase()}</span>
-        <span style="font-size: 0.8rem; color: var(--warning-amber);">КАНОН МАРСА</span>
-      </div>
-      <div style="font-size: 0.95rem; color: var(--text-parchment); margin-top: 6px;">
-        ${law.desc}
-      </div>
-    </div>
-  `).join('');
+  if (container) {
+    container.innerHTML = SIXTEEN_LAWS.map(law => '<div class="formula-card-sub" style="margin-bottom: 12px; border-left: 4px solid var(--brass-primary);"><div class="formula-badge-title"><span>ЗАКОН [' + law.num + ']: ' + law.name.toUpperCase() + '</span><span style="font-size: 0.8rem; color: var(--warning-amber);">КАНОН МАРСА</span></div><div style="font-size: 0.95rem; color: var(--text-parchment); margin-top: 6px;">' + law.desc + '</div></div>').join('');
+  }
 }
 
 const HIERARCHY_DATA = [
@@ -141,4 +120,44 @@ const HIERARCHY_DATA = [
   {
     rank: "АРХИМАГОС (ARCHMAGOS)",
     sphere: "Верховные ученые, полководцы и хранители Кузниц",
-    desc: "Легендарные мыслители (например, Архимагос Доминус Велизарий Коул). Ведут армии скитариев, командуют легионами титанов и тысячелетиями ведут священные иссл
+    desc: "Легендарные мыслители (например, Архимагос Доминус Велизарий Коул). Ведут армии скитариев, командуют легионами титанов и тысячелетиями ведут священные исследования.",
+    tech: "Свыше 90% аугментации плоти, антигравитационные приводы, механодендриты."
+  },
+  {
+    rank: "МАГОС (MAGOS: БИОЛОГИС, ЛОГИС, ЭЛЕКТРОКРАФТ)",
+    sphere: "Мастера конкретных дисциплин познания",
+    desc: "Магос Электрокрафт повелевает генераторами, трансформаторными подстанциями и силовыми шинами. Магос Логис — высший эксперт по когитаторам и алгоритмам.",
+    tech: "Инфосферные нейролинки, встроенные осциллографы и логические анализаторы."
+  },
+  {
+    rank: "ТЕХНОПРОВИДЕЦ (ENGINSEER)",
+    sphere: "Полевые инженеры армий Империума",
+    desc: "Священники, несущие службу в полках Астра Милитарум и Космического Десанта. Ремонтируют «Леманы Руссы», «Химеры» и силовую броню прямо под вражеским огнем.",
+    tech: "Серворуки, силовые топоры с инсигнией, плазменные резаки."
+  },
+  {
+    rank: "ЭЛЕКТРОЖРЕЦЫ (ELECTRO-PRIESTS)",
+    sphere: "Фанатики Движущей Силы (Корпускарии и Фульгуриты)",
+    desc: "Жрецы, пропустившие через свои тела священный ток высокого напряжения. Их вены светятся голубым пламенем, они способны испепелять врагов дуговыми молниями из ладоней.",
+    tech: "Подкожные электромагнитные катушки, электротатуировки."
+  },
+  {
+    rank: "ТЕХНОАКОЛИТ (TECH-ACOLYTE)",
+    sphere: "Ученики и младшие техники радиоэлектронной аппаратуры",
+    desc: "Неофиты, осваивающие священный паяльник, чтение схем, разводку печатных плат и монтаж компонентов под присмотром Магоса.",
+    tech: "Первичные кибер-линзы, паяльные механодендриты на плече."
+  },
+  {
+    rank: "СЕРВИТОРЫ (SERVITORS)",
+    sphere: "Кибернетические монозадачные киборги",
+    desc: "Лоботомированные люди, оснащенные механическими манипуляторами. Выполняют монотонные операции: пайка трафаретов BGA, перенос тяжелых компонентов, намотка трансформаторов.",
+    tech: "Полное подавление воли, жестко зашитая доктрина поведения."
+  }
+];
+
+function renderHierarchy() {
+  const container = document.getElementById('hierarchy-container');
+  if (container) {
+    container.innerHTML = HIERARCHY_DATA.map(item => '<div class="rank-card" onclick="if(typeof triggerRelayImpact===\'function\')triggerRelayImpact()"><div class="rank-title"><span>⚙ ' + item.rank + '</span><span style="font-size: 0.8rem; color: var(--brass-muted);">' + item.sphere + '</span></div><div class="rank-desc">' + item.desc + '</div><div class="rank-meta">Священная аугментация: ' + item.tech + '</div></div>').join('');
+  }
+}
