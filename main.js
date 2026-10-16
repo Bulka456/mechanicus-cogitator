@@ -15,4 +15,5 @@ window.addEventListener('DOMContentLoaded', () => {
   renderLaws();
   renderHierarchy();
   renderCycleQuestion();
+  renderLexiconCards();
 });
