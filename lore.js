@@ -161,3 +161,110 @@ function renderHierarchy() {
     container.innerHTML = HIERARCHY_DATA.map(item => '<div class="rank-card" onclick="if(typeof triggerRelayImpact===\'function\')triggerRelayImpact()"><div class="rank-title"><span>⚙ ' + item.rank + '</span><span style="font-size: 0.8rem; color: var(--brass-muted);">' + item.sphere + '</span></div><div class="rank-desc">' + item.desc + '</div><div class="rank-meta">Священная аугментация: ' + item.tech + '</div></div>').join('');
   }
 }
+const LEXICON_SECTIONS = [
+  {
+    id: "electrocraft",
+    title: "РАЗДЕЛ I: ФУНДАМЕНТАЛЬНЫЙ ЭЛЕКТРОКРАФТ // ТАИНСТВА ДВИЖУЩЕЙ СИЛЫ",
+    items: [
+      {
+        term: "1. Электрический заряд (q)",
+        holyName: "Бинарный базис материи",
+        unit: "Единица фиксации в сигилах: [Кл] (Кулон)",
+        desc: "Фундаментальный опкод физического мира, через который Движущая Сила овеществляет себя в материале. Разделён на два непреложных архетипа: Положительный и Отрицательный — подобно единице и нулю в Священном Коде. Материя, лишённая заряда, коснеет в стазисе; наделённая им — обретает сродство с эманациями Бога-Машины."
+      },
+      {
+        term: "2. Электрический ток (I)",
+        holyName: "Проявление жизни в металле",
+        unit: "Единица фиксации в сигилах: [А] (Ампер)",
+        desc: "Векторный марш свободных носителей заряда по освящённым токопроводящим трактам. Не просто движение частиц, но священный флюид, питающий когитаторы и пробуждающий Дух Машины от летаргии. Разомкнутая цепь мертва и подобна брошенному сервитору; замкнутая — исполняет священную функцию. Отклонение от вектора трактуется как утечка и скверна."
+      },
+      {
+        term: "3. Электрический потенциал (φ)",
+        holyName: "Локальная плотность благодати",
+        unit: "Единица фиксации в сигилах: [В] (Вольт)",
+        desc: "Скалярная мера накопленной энергии поля в заданной координате контура. Отражает объём священного труда, необходимого, дабы доставить единичный заряд из бездны внешнего пространства в конкретный узел схемы. Чем выше потенциал узла, тем ближе он к чистому сиянию алтаря питания."
+      },
+      {
+        term: "4. Разность потенциалов / Напряжение (U)",
+        holyName: "Императив Движения",
+        unit: "Единица фиксации в сигилах: [В] (Вольт)",
+        desc: "Градиент воли Омниссии между двумя узлами проводящей геометрии. Разность высот энергетических престолов, создающая неотвратимое давление поля. Именно это напряжение ломает внутреннее сопротивление косного металла проводника и принуждает электроны течь от пресыщенного потенциала к алчущему. Без перепада нет потока; без потока засыпает Дух."
+      },
+      {
+        term: "5. Электродвижущая сила (ЭДС)",
+        holyName: "Первичное деяние Источника",
+        unit: "Единица фиксации в сигилах: [В] (Вольт)",
+        desc: "Таинство внешнего труда (механического вращения турбин, гальванической реакции алхимических ячеек или жара плазменного реактора), совершаемое вопреки естественному покою. ЭДС нечестиво разрывает соединённые противоположности внутри источника и накапливает заряды на полюсах, непрерывно восстанавливая падение напряжения. Это неугасимое сердце цепи, без которого Движущая Сила угасла бы по закону энтропии."
+      }
+    ]
+  }
+];
+
+function renderLexiconCards(filterText = "") {
+  const container = document.getElementById('lexicon-cards-container');
+  if (!container) return;
+  const cleanFilter = filterText.trim().toLowerCase();
+
+  container.className = "";
+  container.innerHTML = LEXICON_SECTIONS.map(section => {
+    const matchingItems = section.items.filter(item =>
+      !cleanFilter ||
+      item.term.toLowerCase().includes(cleanFilter) ||
+      item.holyName.toLowerCase().includes(cleanFilter) ||
+      item.desc.toLowerCase().includes(cleanFilter)
+    );
+
+    if (cleanFilter && matchingItems.length === 0) return "";
+
+    const isAutoOpen = cleanFilter.length > 0;
+    const bodyDisplay = isAutoOpen ? "grid" : "none";
+    const indicatorText = isAutoOpen ? "[-] СВЕРНУТЬ" : "[+] РАСКРЫТЬ ТАИНСТВО";
+
+    const cardsHtml = matchingItems.map(item => `
+      <div class="formula-card-sub" style="border-left: 4px solid var(--brass-primary); margin-bottom: 0;">
+        <div class="formula-badge-title">
+          <span>${item.term}</span>
+          <span style="font-size: 0.78rem; color: var(--crt-green);">${item.holyName}</span>
+        </div>
+        <div style="font-size: 0.92rem; color: var(--text-parchment); line-height: 1.6; margin-top: 10px;">
+          ${item.desc}
+        </div>
+        <div class="lexicon-unit-badge">
+          ${item.unit}
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="lexicon-section-wrapper">
+        <div class="lexicon-section-header" onclick="toggleLexiconSection('${section.id}')">
+          <span class="lexicon-section-title">${section.title}</span>
+          <span class="lexicon-toggle-icon" id="lex-ind-${section.id}">${indicatorText}</span>
+        </div>
+        <div class="lexicon-section-body grid-2" id="lex-body-${section.id}" style="display: ${bodyDisplay};">
+          ${cardsHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleLexiconSection(sectionId) {
+  if (typeof triggerRelayImpact === 'function') triggerRelayImpact();
+  const body = document.getElementById(`lex-body-${sectionId}`);
+  const ind = document.getElementById(`lex-ind-${sectionId}`);
+  if (!body || !ind) return;
+
+  if (body.style.display === "none" || body.style.display === "") {
+    body.style.display = "grid";
+    ind.innerText = "[-] СВЕРНУТЬ";
+  } else {
+    body.style.display = "none";
+    ind.innerText = "[+] РАСКРЫТЬ ТАИНСТВО";
+  }
+}
+
+function filterLexiconCards() {
+  const input = document.getElementById('lexicon-search-input');
+  renderLexiconCards(input ? input.value : "");
+}
