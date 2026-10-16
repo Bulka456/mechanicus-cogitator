@@ -101,6 +101,10 @@
           <span>[11] ЭКЗАМЕН НА АКОЛИТА</span>
           <span class="btn-idx">ТАИНСТВО XI</span>
         </button>
+        <button class="rack-btn" onclick="selectSanctum('sec-lexicon', this)">
+          <span>[12] ЛЕКСИКОН ОМНИССИИ</span>
+          <span class="btn-idx">ТАИНСТВО XII</span>
+        </button>
       </nav>
 
       <div class="audio-terminal">
@@ -713,7 +717,6 @@
         </div>
 
         <div id="hierarchy-container">
-          <!-- Карточки чинов будут отрендерены через JS -->
         </div>
       </div>
       <div id="sec-exam" class="module-card">
@@ -753,7 +756,29 @@
           </div>
         </div>
       </div>
-    </main>
+      </div>
+      <div id="sec-lexicon" class="module-card">
+        <div class="dogma-scroll">
+          <div class="dogma-seal-badge">12</div>
+          <div class="dogma-text">
+            <strong>СВЯЩЕННЫЙ ЛЕКСИКОН И ГЛОССАРИЙ СУЩНОСТЕЙ ДВИЖУЩЕЙ СИЛЫ</strong>
+            «Истинное знание начинается с постижения имени и сути явлений. Здесь начертаны толкования сокрытых физических процессов языком литургии Марсианского Культа.»
+          </div>
+        </div>
+
+        <div class="section-title">
+          <span>СВЯЩЕННЫЙ ТОЛКОВНИК РАДИОТЕХНИЧЕСКИХ ПОНЯТИЙ</span>
+        </div>
+
+        <div class="field-group">
+          <label>Фильтр поиска по терминам Лексикона:</label>
+          <input type="text" id="lexicon-search-input" placeholder="Введите термин: Добротность, Импеданс, Скин-эффект..." oninput="filterLexiconCards()">
+        </div>
+
+        <div id="lexicon-cards-container" class="grid-2">
+       </div>
+      </div>
+    </main>Ф
   </div>
 <script src="audio.js"></script>
   <script src="calculators.js"></script>
