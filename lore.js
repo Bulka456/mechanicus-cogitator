@@ -161,6 +161,7 @@ function renderHierarchy() {
     container.innerHTML = HIERARCHY_DATA.map(item => '<div class="rank-card" onclick="if(typeof triggerRelayImpact===\'function\')triggerRelayImpact()"><div class="rank-title"><span>⚙ ' + item.rank + '</span><span style="font-size: 0.8rem; color: var(--brass-muted);">' + item.sphere + '</span></div><div class="rank-desc">' + item.desc + '</div><div class="rank-meta">Священная аугментация: ' + item.tech + '</div></div>').join('');
   }
 }
+
 const LEXICON_SECTIONS = [
   {
     id: "electrocraft",
@@ -271,3 +272,72 @@ const LEXICON_SECTIONS = [
     ]
   }
 ];
+
+function renderLexiconCards(filterText = "") {
+  const container = document.getElementById('lexicon-cards-container');
+  if (!container) return;
+  const cleanFilter = filterText.trim().toLowerCase();
+
+  container.className = "";
+  container.innerHTML = LEXICON_SECTIONS.map(section => {
+    const matchingItems = section.items.filter(item =>
+      !cleanFilter ||
+      item.term.toLowerCase().includes(cleanFilter) ||
+      item.holyName.toLowerCase().includes(cleanFilter) ||
+      item.desc.toLowerCase().includes(cleanFilter)
+    );
+
+    if (cleanFilter && matchingItems.length === 0) return "";
+
+    const isAutoOpen = cleanFilter.length > 0;
+    const bodyDisplay = isAutoOpen ? "grid" : "none";
+    const indicatorText = isAutoOpen ? "[-] СВЕРНУТЬ" : "[+] РАСКРЫТЬ ТАИНСТВО";
+
+    const cardsHtml = matchingItems.map(item => `
+      <div class="formula-card-sub" style="border-left: 4px solid var(--brass-primary); margin-bottom: 0;">
+        <div class="formula-badge-title">
+          <span>${item.term}</span>
+          <span style="font-size: 0.78rem; color: var(--crt-green);">${item.holyName}</span>
+        </div>
+        <div style="font-size: 0.92rem; color: var(--text-parchment); line-height: 1.6; margin-top: 10px;">
+          ${item.desc}
+        </div>
+        <div class="lexicon-unit-badge">
+          ${item.unit}
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="lexicon-section-wrapper">
+        <div class="lexicon-section-header" onclick="toggleLexiconSection('${section.id}')">
+          <span class="lexicon-section-title">${section.title}</span>
+          <span class="lexicon-toggle-icon" id="lex-ind-${section.id}">${indicatorText}</span>
+        </div>
+        <div class="lexicon-section-body grid-2" id="lex-body-${section.id}" style="display: ${bodyDisplay};">
+          ${cardsHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleLexiconSection(sectionId) {
+  if (typeof triggerRelayImpact === 'function') triggerRelayImpact();
+  const body = document.getElementById(`lex-body-${sectionId}`);
+  const ind = document.getElementById(`lex-ind-${sectionId}`);
+  if (!body || !ind) return;
+
+  if (body.style.display === "none" || body.style.display === "") {
+    body.style.display = "grid";
+    ind.innerText = "[-] СВЕРНУТЬ";
+  } else {
+    body.style.display = "none";
+    ind.innerText = "[+] РАСКРЫТЬ ТАИНСТВО";
+  }
+}
+
+function filterLexiconCards() {
+  const input = document.getElementById('lexicon-search-input');
+  renderLexiconCards(input ? input.value : "");
+}
